@@ -1,7 +1,7 @@
 import app from './app.js';
-
+import logger from './configs/logger.js';
 const PORT = process.env.PORT;
 
 app.listen(PORT, () => {
-  console.log(`server is running at port ${PORT}`);
+  logger.info(`server is running at port ${PORT}`);
 });
