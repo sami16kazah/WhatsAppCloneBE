@@ -1,4 +1,3 @@
-import { log } from 'winston';
 import app from './app.js';
 import logger from './configs/logger.js';
 const PORT = process.env.PORT;
