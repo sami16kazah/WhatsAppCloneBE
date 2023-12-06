@@ -7,6 +7,8 @@ import cookieParser from 'cookie-parser';
 import compression from 'compression';
 import fileUpload from 'express-fileupload';
 import cors from 'cors';
+import createHttpError from 'http-errors';
+import router from './routes/router.js';
 // to access .env variables
 dotenv.config();
 const app = express();
@@ -32,4 +34,14 @@ app.use(fileUpload({ useTempFiles: true }));
 // protect and restrict who can connect to server
 //app.use(cors({ origin: 'http://localhost:3000' }));
 app.use(cors());
+// http error handling
+app.use(async (err, req, res, next) => {
+  res.status(err.status || 500);
+  res.send({ error: { status: err.status || 500, message: err.message } });
+  next();
+});
+app.use('/api/v1', router);
+app.all('*', async () => {
+  createHttpError.NotFound('this route does not exist');
+});
 export default app;
