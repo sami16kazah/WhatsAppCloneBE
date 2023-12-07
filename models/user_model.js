@@ -1,5 +1,6 @@
 import mongoose, { mongo } from 'mongoose';
 import validator from 'validator';
+import bcrypt from 'bcryptjs';
 const userSchema = mongoose.Schema(
   {
     name: {
@@ -34,6 +35,16 @@ const userSchema = mongoose.Schema(
     timestamps: true,
   }
 );
+userSchema.pre('save', async function (next) {
+  try {
+    if (this.isNew) {
+      const salt = await bcrypt.genSalt(12);
+      const hashedPassword = await bcrypt.hash(this.password, salt);
+      this.password = hashedPassword;
+    }
+    next();
+  } catch (error) {}
+});
 const UserModel =
   mongoose.models.UserModel || mongoose.model('UserModel', userSchema);
 
