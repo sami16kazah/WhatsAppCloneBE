@@ -9,6 +9,7 @@ import fileUpload from 'express-fileupload';
 import cors from 'cors';
 import createHttpError from 'http-errors';
 import router from './routes/router.js';
+import cookieSession from 'cookie-session';
 // to access .env variables
 dotenv.config();
 const app = express();
@@ -34,14 +35,23 @@ app.use(fileUpload({ useTempFiles: true }));
 // protect and restrict who can connect to server
 //app.use(cors({ origin: 'http://localhost:3000' }));
 app.use(cors());
+app.use(
+  cookieSession({
+    // signed false to https only
+    // \signed : false,
+    secret: process.env.COOKIE_KEY,
+    maxAge: 604800000, // one week before expire
+  })
+);
+app.use('/api/v1', router);
+app.use(async (req, res, next) => {
+  next(createHttpError.NotFound('this route does not exist'));
+});
 // http error handling
 app.use(async (err, req, res, next) => {
   res.status(err.status || 500);
   res.send({ error: { status: err.status || 500, message: err.message } });
   next();
 });
-app.use('/api/v1', router);
-app.all('*', async () => {
-  createHttpError.NotFound('this route does not exist');
-});
+
 export default app;
