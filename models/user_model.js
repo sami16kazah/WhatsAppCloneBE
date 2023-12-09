@@ -43,7 +43,9 @@ userSchema.pre('save', async function (next) {
       this.password = hashedPassword;
     }
     next();
-  } catch (error) {}
+  } catch (error) {
+    next(error);
+  }
 });
 const UserModel =
   mongoose.models.UserModel || mongoose.model('UserModel', userSchema);
