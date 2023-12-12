@@ -2,7 +2,7 @@ import createHttpError from 'http-errors';
 import jwt from 'jsonwebtoken';
 export default async function (req, res, next) {
   if (!req.session || !req.session.refreshToken) {
-    return res.send(createHttpError.Unauthorized('you are not logged in'));
+    return next(createHttpError.Unauthorized('you are not logged in'));
   }
   const token = req.session.refreshToken;
 
