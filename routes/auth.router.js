@@ -4,7 +4,7 @@ import {
   login,
   logout,
   refreshToken,
-} from '../controllers/auth-controller.js';
+} from '../controllers/auth.controller.js';
 import trimRequest from 'trim-request';
 import authMiddleware from '../middlewares/authMiddleware.js';
 const router = express.Router();

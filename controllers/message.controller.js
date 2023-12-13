@@ -9,6 +9,8 @@ export const sendMessage = async (req, res, next) => {
   try {
     const userId = req.user.userId;
     const { message, convo_Id, files } = req.body;
+    console.log(convo_Id, message);
+    console.log(req.body);
     if (!convo_Id || (!message && !files)) {
       logger.error('please provide an conversation ID ');
       return res.sendStatus(400);

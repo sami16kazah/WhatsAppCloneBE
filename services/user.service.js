@@ -8,3 +8,13 @@ export const findUser = async (userId) => {
   }
   return user;
 };
+
+export const searchUsers = async (keywords) => {
+  const users = await UserModel.find({
+    $or: [
+      { name: { $regex: keywords, $options: 'i' } },
+      { email: { $regex: keywords, $options: 'i' } },
+    ],
+  });
+  return users;
+};
