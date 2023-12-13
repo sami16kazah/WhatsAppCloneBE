@@ -24,7 +24,7 @@ export const register = async (req, res, next) => {
       process.env.REFRESH_TOKEN_SECRET
     );
     req.session = { refreshToken: refreshToken };
-    //console.table({ accessToken, refreshToken });
+    res.cookie(req.session);
 
     res.json({
       msg: 'register success',
@@ -57,8 +57,7 @@ export const login = async (req, res, next) => {
       '30d',
       process.env.REFRESH_TOKEN_SECRET
     );
-    req.session = { refreshToken: refreshToken };
-    //console.table({ accessToken, refreshToken });
+
     res.json({
       msg: 'logged in success',
 

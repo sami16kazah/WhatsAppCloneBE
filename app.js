@@ -33,8 +33,13 @@ app.use(compression());
 // to make uploaded file accessible from req.file
 app.use(fileUpload({ useTempFiles: true }));
 // protect and restrict who can connect to server
-//app.use(cors({ origin: 'http://localhost:3000' }));
-app.use(cors());
+
+app.use(
+  cors({
+    origin: true, // or specify the allowed origins
+    credentials: true, // this will allow credentials
+  })
+);
 app.use(
   cookieSession({
     // signed false to https only
