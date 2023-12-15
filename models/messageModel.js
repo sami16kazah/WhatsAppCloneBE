@@ -7,7 +7,7 @@ const MessageSchema = mongoose.Schema(
       required: true,
     },
     files: [],
-    sender: { type: ObjectId, ref: 'MessageModel' },
+    sender: { type: ObjectId, ref: 'UserModel' },
     conversation: { type: ObjectId, ref: 'ConversationModel' },
   },
   {
