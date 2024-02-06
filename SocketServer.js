@@ -7,6 +7,7 @@ export default function (socket, io) {
       onlineUsers.push({ userId: user, socketId: socket.id });
     }
     io.emit('get-online-users', onlineUsers);
+    io.emit('setup socket id', socket.id);
   });
 
   socket.on('disconnect', () => {
@@ -34,5 +35,19 @@ export default function (socket, io) {
   });
   socket.on('stop typing', (conversation) => {
     socket.in(conversation).emit('stop typing');
+  });
+
+  socket.on('call user', (data) => {
+    let userId = data.userToCall;
+    let userSocketId = onlineUsers.find((user) => user.userId == userId);
+    io.to(userSocketId.socketId).emit('call user', {
+      signal: data.signal,
+      from: data.from,
+      name: data.name,
+      picture: data.picture,
+    });
+  });
+  socket.on('answer call', (data) => {
+    io.to(data.socketId).emit('call accepted', { data: data.signal });
   });
 }

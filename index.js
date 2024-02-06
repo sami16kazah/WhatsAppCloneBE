@@ -3,6 +3,9 @@ import logger from './configs/logger.js';
 import mongoose from 'mongoose';
 import { Server } from 'socket.io';
 import SocketServer from './SocketServer.js';
+/*import https from 'https';
+import fs from 'fs';*/
+
 const { MONGODB_URI } = process.env;
 const PORT = process.env.PORT;
 // exit on mongodb error
@@ -15,6 +18,13 @@ if (process.env.NODE_ENV !== 'production') {
   mongoose.set('debug', true);
 }
 mongoose.connect(MONGODB_URI).then(logger.info('connected to mongo'));
+/*
+var options = {
+  key: fs.readFileSync('server.key'),
+  cert: fs.readFileSync('server.crt'),
+};
+
+const server = https.createServer(options, app);*/
 let server;
 server = app.listen(PORT, () => {
   logger.info(`server is running at port ${PORT}`);

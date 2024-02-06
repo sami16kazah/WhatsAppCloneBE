@@ -4,7 +4,6 @@ const MessageSchema = mongoose.Schema(
   {
     message: {
       type: String,
-      required: true,
     },
     files: [],
     sender: { type: ObjectId, ref: 'UserModel' },
